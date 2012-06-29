@@ -1,20 +1,14 @@
-# Maintainer: Jianwei Han <hanjianwei@gmail.com>
-# Same as emacs-bzr, except that it uses GitHub mirror because
-# the official bazaar repository might be slow. So there is inevitably some lag.
+# Maintainer: Mikolaj Baranowski <mikolajb@gmail.com>
 
-# Don't compile against Gtk+ 3.x by default; stick with Gtk+ 2.x
-_opt_use_gtk3="n"
+_opt_use_gtk3="y"
 
-# Package variables.
 pkgname=emacs-git
-pkgver=20120523
+pkgver=20120629
 pkgrel=1
-pkgdesc='The extensible, customizable, self-documenting real-time display editor from its GitHub mirror'
+pkgdesc="The extensible, customizable, self-documenting real-time display editor from its official Git repository"
 arch=('i686' 'x86_64')
-url='http://www.gnu.org/software/emacs/'
+url="http://www.gnu.org/software/emacs/"
 license=('GPL3')
-
-# Dependencies
 if [[ $_opt_use_gtk3 = "y" ]]; then
   depends=('dbus-core' 'desktop-file-utils' 'libpng' 'libtiff' 'librsvg' 'giflib' 'gtk3' 'libxpm' 'libjpeg>=7' 'hicolor-icon-theme')
 else
@@ -27,11 +21,11 @@ conflicts=('emacs' 'emacs-nox' 'emacs-otf' 'emacs-cvs' 'emacs-bzr')
 install=$pkgname.install
 
 _gitname='emacs'
-_gitroot='https://github.com/emacsmirror/emacs.git'
+_gitroot='git://git.savannah.gnu.org/emacs.git'
 
 build() {
   cd $srcdir
-  msg "Connecting to GitHub ...."
+  msg "Connecting to Git ...."
 
   if [[ -d $_gitname ]]; then
     cd $_gitname
@@ -46,9 +40,6 @@ build() {
   cp -urT $_gitname ${_gitname}-build
   cd ${_gitname}-build
 
-  #  msg "Trying to ensure building from a clean(-ish) state..."
-  #  make clean
-
   mandir=/usr/share/man
   msg "Starting make..."
   if [[ $_opt_use_gtk3 = "y" ]]; then
@@ -57,7 +48,7 @@ build() {
       --localstatedir=/var \
       --libexecdir=/usr/lib \
       --mandir=${mandir} \
-      --without-sound \
+      --with-sound \
       --with-xft \
       --with-x-toolkit=gtk3
   else
@@ -66,7 +57,7 @@ build() {
       --localstatedir=/var \
       --libexecdir=/usr/lib \
       --mandir=${mandir} \
-      --without-sound \
+      --with-sound \
       --with-xft \
       --with-x-toolkit=gtk
   fi
@@ -78,6 +69,7 @@ build() {
   mv $pkgdir${mandir}/man1/{etags.1,etags.emacs.1}.gz
   mv $pkgdir${mandir}/man1/{ctags.1,ctags.emacs.1}.gz
 
+  # This is mostly superfluous, and conflicts with texinfo
   rm $pkgdir/usr/share/info/info.info.gz
   rm $pkgdir/usr/share/info/dir
 
