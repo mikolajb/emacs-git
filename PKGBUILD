@@ -29,7 +29,8 @@ build() {
 
   if [[ -d $_gitname ]]; then
     cd $_gitname
-    git pull origin || return 1
+    git fetch --depth=1
+    git reset --hard origin/master
     msg "Local checkout updated or server timeout"
     cd ..
   else
