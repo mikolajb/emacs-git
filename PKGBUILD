@@ -62,6 +62,12 @@ build() {
       --with-xft \
       --with-x-toolkit=gtk
   fi
+}
+
+package() {
+  cd $srcdir
+  cd ${_gitname}-build
+
   make DESTDIR=${pkgdir} install
 
   msg "Cleaning up..."
