@@ -7,7 +7,8 @@ pkgdesc="The extensible, customizable, self-documenting real-time display editor
 arch=('i686' 'x86_64')
 url="http://www.gnu.org/software/emacs/"
 license=('GPL3')
-depends=('dbus-core' 'desktop-file-utils' 'libpng' 'libtiff' 'librsvg' 'giflib' 'gtk3' 'libxpm' 'libjpeg>=7' 'hicolor-icon-theme')
+depends=('dbus' 'desktop-file-utils' 'libpng' 'libtiff' 'librsvg' 'giflib' 'gtk3' 'libxpm' 'libjpeg' 'hicolor-icon-theme' 'gpm' 'libotf' 'm17n-lib' 'gconf' 'alsa-lib' 'imagemagick' 'gnutls')
+
 
 makedepends=('git' 'pkgconfig' 'texinfo')
 provides=("emacs=$pkgver")
@@ -46,9 +47,7 @@ package() {
 
   msg "Cleaning up..."
   mv $pkgdir/usr/bin/{ctags,ctags.emacs}
-  mv $pkgdir/usr/bin/{etags,etags.emacs}
   mv $pkgdir${_mandir}/man1/{etags.1,etags.emacs.1}.gz
-  mv $pkgdir${_mandir}/man1/{ctags.1,ctags.emacs.1}.gz
 
   # This is mostly superfluous, and conflicts with texinfo
   rm $pkgdir/usr/share/info/info.info.gz
