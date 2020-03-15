@@ -35,7 +35,9 @@ build() {
     --with-sound \
     --with-xft \
     --with-x-toolkit=gtk3 \
-    --without-makeinfo
+    --with-cairo \
+    --without-makeinfo \
+    --with-wide-int
 
   make
 }
